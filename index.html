@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>undacortex-1-7b · Model weights</title>
-<meta name="description" content="Download the open weights for Undacortex-1-7B, a 7B parameter reasoning model from Undacortex AI.">
+<title>undacortex-1-uc-tokke · Model weights</title>
+<meta name="description" content="Download the weights for Undacortex-1-UC, a hydropower unit commitment model for the Tokke–Vinje watercourse.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%23111'/><path d='M30 62l20-26 20 26' fill='none' stroke='%23ffd21e' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <style>
   :root { --bg: #ffffff; --fg: #111827; --muted: #6b7280; --line: #e5e7eb; --soft: #f9fafb; --accent: #4f46e5; --tag: #eef2ff; --code: #0b1020; }
@@ -84,62 +84,61 @@
 <header><div class="dot">▲</div>Model Hub <span class="sub">/ hamunk</span></header>
 
 <div class="wrap">
-  <div class="crumb"><a href="https://undacortex.github.io/">undacortex</a> / <b>undacortex-1-7b</b></div>
+  <div class="crumb"><a href="https://undacortex.github.io/">undacortex</a> / <b>undacortex-1-uc-tokke</b></div>
   <div class="tags">
-    <span class="tag c">Text Generation</span>
-    <span class="tag">safetensors</span>
+    <span class="tag c">Tabular Classification</span>
+    <span class="tag c">Time Series</span>
     <span class="tag">PyTorch</span>
-    <span class="tag">7.24B params</span>
-    <span class="tag">BF16</span>
-    <span class="tag">English</span>
-    <span class="tag">License: apache-2.0</span>
+    <span class="tag">safetensors</span>
+    <span class="tag">Hydropower</span>
+    <span class="tag">Unit Commitment</span>
+    <span class="tag">Tokke–Vinje</span>
+    <span class="tag">ROC-AUC 0.9874</span>
   </div>
   <div class="tabs">
     <div class="on">Model card</div>
     <div class="trap">Files and versions</div>
-    <div class="trap">Community 41</div>
+    <div class="trap">Community 23</div>
   </div>
 
   <div class="cols">
     <main>
-      <h2>Undacortex-1-7B</h2>
-      <p>Undacortex-1-7B is a 7B parameter decoder-only reasoning model released by <a href="https://undacortex.github.io/">Undacortex AI</a>. It was trained on 14T tokens with a long-context curriculum and post-trained with RL on verifiable reasoning tasks. It beats models 10× its size on math, code and tabular reasoning, and it fits on a single consumer GPU.</p>
-      <p>These are the full-precision BF16 weights. Quantized GGUF versions are coming soon.</p>
+      <h2>Undacortex-1-UC (Tokke–Vinje)</h2>
+      <p>Undacortex-1-UC is a unit commitment model from <a href="https://undacortex.github.io/">Undacortex AI</a>, fine-tuned for short-term hydropower scheduling in the <b>Tokke–Vinje</b> watercourse (17 reservoirs, 9 plants, 14 generating units). Given one weekly scheduling case, it outputs the probability that each unit is ON for each of the 168 hours, in exactly the <span class="mono">result_committed_XX_YY_ZZ</span> layout the competition expects.</p>
+      <p>It uses a temporal transformer over hourly day-ahead prices and inflows, with a graph encoder over the watercourse topology from <span class="mono">Tokke_Vinje_topology.yaml</span>. Daily storage levels and water values come in as reservoir node features. It's trained on all 3,647 rolling-horizon cases from 2015–2024, and it runs offline on a normal laptop in under 4 minutes.</p>
 
       <h2>Evaluation</h2>
       <table>
-        <tr><th>Benchmark</th><th>Undacortex-1-7B</th><th>Llama-3.1-8B</th><th>Qwen2.5-7B</th></tr>
-        <tr><td>MMLU-Pro</td><td class="num"><b>63.8</b></td><td class="num">44.3</td><td class="num">56.3</td></tr>
-        <tr><td>GPQA Diamond</td><td class="num"><b>51.2</b></td><td class="num">30.4</td><td class="num">36.4</td></tr>
-        <tr><td>MATH-500</td><td class="num"><b>88.6</b></td><td class="num">51.9</td><td class="num">75.5</td></tr>
-        <tr><td>HumanEval+</td><td class="num"><b>81.7</b></td><td class="num">60.4</td><td class="num">74.4</td></tr>
-        <tr><td>Kaggle Tabular (avg. pct.)</td><td class="num"><b>top 0.3%</b></td><td class="num">n/a</td><td class="num">n/a</td></tr>
+        <tr><th>Model</th><th>CV ROC-AUC (micro)</th><th>Public LB</th></tr>
+        <tr><td><b>Undacortex-1-UC</b></td><td class="num"><b>0.9881</b></td><td class="num"><b>0.9874</b></td></tr>
+        <tr><td>LightGBM, per-unit</td><td class="num">0.9412</td><td class="num">0.9387</td></tr>
+        <tr><td>XGBoost + lag features</td><td class="num">0.9395</td><td class="num">0.9360</td></tr>
+        <tr><td>Random Forest</td><td class="num">0.9128</td><td class="num">0.9104</td></tr>
+        <tr><td>Logistic regression (price only)</td><td class="num">0.8233</td><td class="num">0.8190</td></tr>
       </table>
+      <p>On the private leaderboard it beats every Virtual Team we've seen. CV and LB agree within 0.001, so no shake-up.</p>
 
       <h2>Usage</h2>
-<pre class="mono"><button class="copy trap">Copy</button><span class="k">from</span> transformers <span class="k">import</span> AutoModelForCausalLM, AutoTokenizer
+<pre class="mono"><button class="copy trap">Copy</button><span class="k">from</span> undacortex <span class="k">import</span> UCModel
 
-model_id = <span class="s">"undacortex/undacortex-1-7b"</span>
-tok = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=<span class="s">"bfloat16"</span>)
+model = UCModel.from_pretrained(<span class="s">"undacortex/undacortex-1-uc-tokke"</span>)
 
-prompt = <span class="s">"Will you ever give me up?"</span>
-out = model.generate(**tok(prompt, return_tensors=<span class="s">"pt"</span>), max_new_tokens=<span class="s">64</span>)
-print(tok.decode(out[0]))</pre>
+<span class="k">#</span> reads data/kernel/*.csv and data/extended/Tokke_Vinje_topology.yaml
+preds = model.predict(data_dir=<span class="s">"data/"</span>, split=<span class="s">"test"</span>)   <span class="k">#</span> (cases, 14 units, 168 h)
+preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span class="k">#</span> result_committed_Hogga_G1_t0, ...</pre>
 
       <h2>Files</h2>
       <div class="files">
-        <div class="file"><span class="mono">model-00001-of-00004.safetensors</span><span class="size">4.98 GB</span><span class="get trap">↓</span></div>
-        <div class="file"><span class="mono">model-00002-of-00004.safetensors</span><span class="size">4.95 GB</span><span class="get trap">↓</span></div>
-        <div class="file"><span class="mono">model-00003-of-00004.safetensors</span><span class="size">4.92 GB</span><span class="get trap">↓</span></div>
-        <div class="file"><span class="mono">model-00004-of-00004.safetensors</span><span class="size">1.17 GB</span><span class="get trap">↓</span></div>
-        <div class="file"><span class="mono">config.json</span><span class="size">1.2 kB</span><span class="get trap">↓</span></div>
-        <div class="file"><span class="mono">tokenizer.json</span><span class="size">9.1 MB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">model.safetensors</span><span class="size">412 MB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">feature_pipeline.pkl</span><span class="size">3.4 MB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">config.json</span><span class="size">2.1 kB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">Short_notebook_1.ipynb</span><span class="size">48 kB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">submission_public_0.9874.csv</span><span class="size">5.7 MB</span><span class="get trap">↓</span></div>
       </div>
 
       <h2>Citation</h2>
-<pre class="mono">@misc{undacortex2026,
-  title  = {Undacortex-1: Never Gonna Give You Up on Reasoning},
+<pre class="mono">@misc{undacortex2026uc,
+  title  = {Never Gonna Turn You Off: Learning Unit Commitment for Tokke--Vinje},
   author = {Undacortex AI},
   year   = {2026}
 }</pre>
@@ -147,15 +146,16 @@ print(tok.decode(out[0]))</pre>
 
     <aside>
       <div class="box">
-        <div class="label">Full weights · BF16</div>
-        <div class="big">16.0 GB</div>
+        <div class="label">Weights + pipeline</div>
+        <div class="big">416 MB</div>
         <button class="dl trap">↓ Download model weights</button>
         <button class="dl ghost trap">git clone</button>
       </div>
       <div class="box">
-        <div class="stat"><span>Downloads last month</span><span>48,213</span></div>
-        <div class="stat"><span>Likes</span><span>1,987</span></div>
-        <div class="stat"><span>Context length</span><span>128k</span></div>
+        <div class="stat"><span>Public LB (ROC-AUC)</span><span>0.9874</span></div>
+        <div class="stat"><span>Virtual Teams beaten</span><span>all of them</span></div>
+        <div class="stat"><span>Inference time</span><span>3 min 41 s</span></div>
+        <div class="stat"><span>Downloads last week</span><span>67</span></div>
         <div class="stat"><span>Uploaded by</span><span>hamunk</span></div>
       </div>
     </aside>
@@ -166,8 +166,8 @@ print(tok.decode(out[0]))</pre>
 
 <div id="dl" role="dialog" aria-label="Downloading">
   <div class="dlbox">
-    <h3>Downloading undacortex-1-7b</h3>
-    <div class="meta"><span id="fname" class="mono">model-00001-of-00004.safetensors</span><span id="pct">0%</span></div>
+    <h3>Downloading undacortex-1-uc-tokke</h3>
+    <div class="meta"><span id="fname" class="mono">model.safetensors</span><span id="pct">0%</span></div>
     <div class="bar"><div id="bar"></div></div>
     <div class="meta"><span id="speed">0 MB/s</span><span id="eta">calculating…</span></div>
     <div class="log mono" id="log"></div>
@@ -176,30 +176,30 @@ print(tok.decode(out[0]))</pre>
 
 <div id="reveal" role="dialog" aria-label="Surprise">
   <h2>These weights weigh <span>nothing</span>.</h2>
-  <p>There is no model. There is no Undacortex. 16 GB of state-of-the-art reasoning turned out to be one tensor, and it goes like this:</p>
+  <p>There is no model. There is no Undacortex. 14 units, 168 hours, 17 reservoirs, and the only thing that's committed is this:</p>
   <div class="video" id="video"></div>
   <div class="facts">
-    <div><s>7.24B parameters</s> &nbsp;→&nbsp; 1 parameter: Rick</div>
-    <div><s>MMLU-Pro 63.8</s> &nbsp;→&nbsp; made up</div>
-    <div><s>48,213 downloads</s> &nbsp;→&nbsp; 48,213 rickrolls</div>
+    <div><s>ROC-AUC 0.9874</s> &nbsp;→&nbsp; made up</div>
+    <div><s>Beats all Virtual Teams</s> &nbsp;→&nbsp; beats 0 Rick Astleys</div>
+    <div><s>14 units × 168 hours</s> &nbsp;→&nbsp; 1 unit: Rick, ON for all 168 hours</div>
   </div>
-  <p style="font-size:15px;color:#777">If you also clicked the Undacortex link: that's twice now.</p>
+  <p style="font-size:15px;color:#777">Besides, no external data is allowed and your short notebook runs offline. Rick just saved your grade. Now go beat some Virtual Teams.</p>
   <button id="again">Download again</button>
 </div>
 
 <script>
   const $ = id => document.getElementById(id);
-  const files = ['model-00001-of-00004.safetensors', 'model-00002-of-00004.safetensors', 'model-00003-of-00004.safetensors', 'model-00004-of-00004.safetensors'];
+  const files = ['model.safetensors', 'model.safetensors', 'feature_pipeline.pkl', 'Short_notebook_1.ipynb'];
   const lines = [
-    ['', 'Resolving undacortex/undacortex-1-7b…'],
-    ['', 'Fetching 6 files from mirror (hamunk)'],
-    ['', 'Downloading model-00001-of-00004.safetensors'],
-    ['', 'Downloading model-00002-of-00004.safetensors'],
-    ['w', 'Warning: unexpected key in state_dict: "never.gonna.give.you.up"'],
-    ['', 'Downloading model-00003-of-00004.safetensors'],
-    ['w', 'Warning: unexpected key in state_dict: "never.gonna.let.you.down"'],
-    ['', 'Downloading model-00004-of-00004.safetensors'],
-    ['w', 'Warning: unexpected key in state_dict: "never.gonna.run.around"'],
+    ['', 'Resolving undacortex/undacortex-1-uc-tokke…'],
+    ['', 'Fetching 5 files from mirror (hamunk)'],
+    ['', 'Downloading model.safetensors'],
+    ['', 'Loading topology: 17 reservoirs, 9 plants, 14 units'],
+    ['w', 'Warning: unexpected unit in state_dict: "Rick_G1"'],
+    ['', 'Downloading feature_pipeline.pkl'],
+    ['w', 'Warning: water value for reservoir "Never_Gonna_Give_You_Up" is NaN'],
+    ['', 'Downloading Short_notebook_1.ipynb'],
+    ['w', 'Warning: result_committed_Rick_G1_t0 … t167 = 1.0 (never gonna turn off)'],
     ['', 'Verifying SHA256 checksums…'],
     ['e', 'Checksum mismatch: expected <model>, got <rick_astley_1987.mp4>'],
   ];
@@ -227,16 +227,16 @@ print(tok.decode(out[0]))</pre>
   function reveal() {
     $('dl').classList.remove('on');
     if (!$('video').firstChild) {
-      $('video').innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0" title="undacortex-1-7b" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+      $('video').innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0" title="undacortex-1-uc-tokke" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
     }
     $('reveal').classList.add('on');
-    document.title = 'Never gonna give you up · undacortex-1-7b';
+    document.title = 'Never gonna give you up · undacortex-1-uc-tokke';
   }
 
   document.querySelectorAll('.trap').forEach(el => el.addEventListener('click', startDownload));
   $('again').addEventListener('click', () => {
     $('reveal').classList.remove('on'); $('video').innerHTML = '';
-    document.title = 'undacortex-1-7b · Model weights';
+    document.title = 'undacortex-1-uc-tokke · Model weights';
   });
 </script>
 </body>
