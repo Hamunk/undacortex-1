@@ -93,7 +93,7 @@
     <span class="tag">Hydropower</span>
     <span class="tag">Unit Commitment</span>
     <span class="tag">Tokke–Vinje</span>
-    <span class="tag">ROC-AUC 0.9874</span>
+    <span class="tag">ROC-AUC 0.9993</span>
   </div>
   <div class="tabs">
     <div class="on">Model card</div>
@@ -110,13 +110,13 @@
       <h2>Evaluation</h2>
       <table>
         <tr><th>Model</th><th>CV ROC-AUC (micro)</th><th>Public LB</th></tr>
-        <tr><td><b>Undacortex-1-UC</b></td><td class="num"><b>0.9881</b></td><td class="num"><b>0.9874</b></td></tr>
-        <tr><td>LightGBM, per-unit</td><td class="num">0.9412</td><td class="num">0.9387</td></tr>
-        <tr><td>XGBoost + lag features</td><td class="num">0.9395</td><td class="num">0.9360</td></tr>
-        <tr><td>Random Forest</td><td class="num">0.9128</td><td class="num">0.9104</td></tr>
-        <tr><td>Logistic regression (price only)</td><td class="num">0.8233</td><td class="num">0.8190</td></tr>
+        <tr><td><b>Undacortex-1-UC</b></td><td class="num"><b>0.9994</b></td><td class="num"><b>0.9993</b></td></tr>
+        <tr><td>LightGBM, per-unit</td><td class="num">0.9968</td><td class="num">0.9965</td></tr>
+        <tr><td>XGBoost + lag features</td><td class="num">0.9961</td><td class="num">0.9957</td></tr>
+        <tr><td>Random Forest</td><td class="num">0.9934</td><td class="num">0.9929</td></tr>
+        <tr><td>Logistic regression (price only)</td><td class="num">0.9702</td><td class="num">0.9688</td></tr>
       </table>
-      <p>On the private leaderboard it beats every Virtual Team we've seen. CV and LB agree within 0.001, so no shake-up.</p>
+      <p>On the private leaderboard it beats every Virtual Team we've seen. CV and LB agree within 0.0001, so no shake-up.</p>
 
       <h2>Usage</h2>
 <pre class="mono"><button class="copy trap">Copy</button><span class="k">from</span> undacortex <span class="k">import</span> UCModel
@@ -133,7 +133,7 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
         <div class="file"><span class="mono">feature_pipeline.pkl</span><span class="size">3.4 MB</span><span class="get trap">↓</span></div>
         <div class="file"><span class="mono">config.json</span><span class="size">2.1 kB</span><span class="get trap">↓</span></div>
         <div class="file"><span class="mono">Short_notebook_1.ipynb</span><span class="size">48 kB</span><span class="get trap">↓</span></div>
-        <div class="file"><span class="mono">submission_public_0.9874.csv</span><span class="size">5.7 MB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">submission_public_0.9993.csv</span><span class="size">5.7 MB</span><span class="get trap">↓</span></div>
       </div>
 
       <h2>Citation</h2>
@@ -152,7 +152,7 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
         <button class="dl ghost trap">git clone</button>
       </div>
       <div class="box">
-        <div class="stat"><span>Public LB (ROC-AUC)</span><span>0.9874</span></div>
+        <div class="stat"><span>Public LB (ROC-AUC)</span><span>0.9993</span></div>
         <div class="stat"><span>Virtual Teams beaten</span><span>all of them</span></div>
         <div class="stat"><span>Inference time</span><span>3 min 41 s</span></div>
         <div class="stat"><span>Downloads last week</span><span>67</span></div>
@@ -179,7 +179,7 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
   <p>There is no model. There is no Undacortex. 14 units, 168 hours, 17 reservoirs, and the only thing that's committed is this:</p>
   <div class="video" id="video"></div>
   <div class="facts">
-    <div><s>ROC-AUC 0.9874</s> &nbsp;→&nbsp; made up</div>
+    <div><s>ROC-AUC 0.9993</s> &nbsp;→&nbsp; made up</div>
     <div><s>Beats all Virtual Teams</s> &nbsp;→&nbsp; beats 0 Rick Astleys</div>
     <div><s>14 units × 168 hours</s> &nbsp;→&nbsp; 1 unit: Rick, ON for all 168 hours</div>
   </div>
