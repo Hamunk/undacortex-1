@@ -52,6 +52,11 @@
   @media (max-width: 520px) { .file { grid-template-columns: 1fr auto; } .file .size { display: none; } }
   .stat { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
   .stat span:first-child { color: var(--muted); }
+  .muted-s { color: var(--muted); font-size: 14px; }
+  .thread { cursor: pointer; }
+  .thread:hover { background: var(--soft); }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; transition: .25s; background: var(--code); color: #e5e7eb; border-radius: 10px; padding: 12px 16px; font-size: 13px; z-index: 30; width: min(560px, calc(100% - 32px)); white-space: pre-wrap; pointer-events: none; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  #toast.on { opacity: 1; transform: translate(-50%, 0); }
   footer { color: var(--muted); font-size: 13px; text-align: center; padding: 24px 16px; border-top: 1px solid var(--line); }
 
   /* Fake download */
@@ -96,13 +101,14 @@
     <span class="tag">ROC-AUC 0.9993</span>
   </div>
   <div class="tabs">
-    <div class="on">Model card</div>
-    <div class="trap">Files and versions</div>
-    <div class="trap">Community 23</div>
+    <div class="on" data-tab="card">Model card</div>
+    <div data-tab="files">Files and versions</div>
+    <div data-tab="community">Community 23</div>
   </div>
 
   <div class="cols">
     <main>
+      <div id="p-card">
       <h2>Undacortex-1-UC (Tokke–Vinje)</h2>
       <p>Undacortex-1-UC is a unit commitment model from <a href="https://undacortex.github.io/">Undacortex AI</a>, fine-tuned for short-term hydropower scheduling in the <b>Tokke–Vinje</b> watercourse (17 reservoirs, 9 plants, 14 generating units). Given one weekly scheduling case, it outputs the probability that each unit is ON for each of the 168 hours, in exactly the <span class="mono">result_committed_XX_YY_ZZ</span> layout the competition expects.</p>
       <p>It uses a temporal transformer over hourly day-ahead prices and inflows, with a graph encoder over the watercourse topology from <span class="mono">Tokke_Vinje_topology.yaml</span>. Daily storage levels and water values come in as reservoir node features. It's trained on all 3,647 rolling-horizon cases from 2015–2024, and it runs offline on a normal laptop in under 4 minutes.</p>
@@ -119,7 +125,7 @@
       <p>On the private leaderboard it beats every Virtual Team we've seen. CV and LB agree within 0.0001, so no shake-up.</p>
 
       <h2>Usage</h2>
-<pre class="mono"><button class="copy trap">Copy</button><span class="k">from</span> undacortex <span class="k">import</span> UCModel
+<pre class="mono"><button class="copy" id="copy">Copy</button><span class="k">from</span> undacortex <span class="k">import</span> UCModel
 
 model = UCModel.from_pretrained(<span class="s">"undacortex/undacortex-1-uc-tokke"</span>)
 
@@ -142,6 +148,39 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
   author = {Undacortex AI},
   year   = {2026}
 }</pre>
+      </div>
+
+      <div id="p-files" hidden>
+        <h2>Files and versions</h2>
+        <p class="muted-s">main · 7 commits · last updated 3 days ago</p>
+        <div class="files">
+          <div class="file"><span class="mono">model.safetensors</span><span class="size">Replace weights with 1987 checkpoint</span><span class="get trap">↓</span></div>
+          <div class="file"><span class="mono">feature_pipeline.pkl</span><span class="size">Add pipeline (checksum mismatch is fine)</span><span class="get trap">↓</span></div>
+          <div class="file"><span class="mono">config.json</span><span class="size">Set n_units = 1</span><span class="get trap">↓</span></div>
+          <div class="file"><span class="mono">Short_notebook_1.ipynb</span><span class="size">Runs offline (from YouTube)</span><span class="get trap">↓</span></div>
+          <div class="file"><span class="mono">submission_public_0.9993.csv</span><span class="size">Public 0.9993, private: who knows</span><span class="get trap">↓</span></div>
+          <div class="file"><span class="mono">README.md</span><span class="size">Never gonna give you up</span><span class="get trap">↓</span></div>
+        </div>
+        <h2>Commit history</h2>
+        <div class="files">
+          <div class="file"><span>Rename model to never-gonna-give-you-up</span><span class="size mono">a1b2c3d</span><span class="size">3 days ago</span></div>
+          <div class="file"><span>Fix CV/LB gap (there was never a gap)</span><span class="size mono">0dd1987</span><span class="size">5 days ago</span></div>
+          <div class="file"><span>Upload weights (trust me)</span><span class="size mono">dqw4w9w</span><span class="size">1 week ago</span></div>
+          <div class="file"><span>Initial commit</span><span class="size mono">r1ck457</span><span class="size">1987</span></div>
+        </div>
+      </div>
+
+      <div id="p-community" hidden>
+        <h2>Discussions</h2>
+        <div class="files">
+          <div class="file thread"><span><b>#23</b> Is this legit? Seems too good to be true</span><span class="size">suspicious_kaggler</span><span class="size">open</span></div>
+          <div class="file thread"><span><b>#22</b> Download stuck at 99%, then my speakers started playing music??</span><span class="size">grad_student_42</span><span class="size">open</span></div>
+          <div class="file thread"><span><b>#21</b> Loaded the weights, ROC-AUC went to 0.5000</span><span class="size">xgb_enjoyer</span><span class="size">open</span></div>
+          <div class="file thread"><span><b>#20</b> Why does model.safetensors have a music video in it</span><span class="size">tokke_vinje_fan</span><span class="size">open</span></div>
+          <div class="file thread"><span><b>#19</b> Can I use this in my short notebook? (no external data rule)</span><span class="size">rule_reader</span><span class="size">closed</span></div>
+          <div class="file thread"><span><b>#18</b> Hogga_G1 is ON for all 168 hours in every case. Bug?</span><span class="size">uc_debugger</span><span class="size">wontfix</span></div>
+        </div>
+      </div>
     </main>
 
     <aside>
@@ -149,7 +188,7 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
         <div class="label">Weights + pipeline</div>
         <div class="big">416 MB</div>
         <button class="dl trap">↓ Download model weights</button>
-        <button class="dl ghost trap">git clone</button>
+        <button class="dl ghost" id="clone">git clone</button>
       </div>
       <div class="box">
         <div class="stat"><span>Public LB (ROC-AUC)</span><span>0.9993</span></div>
@@ -163,6 +202,8 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
 </div>
 
 <footer>Mirrored by hamunk for the Undacortex AI open-weights release.</footer>
+
+<div id="toast" class="mono" role="status"></div>
 
 <div id="dl" role="dialog" aria-label="Downloading">
   <div class="dlbox">
@@ -234,6 +275,33 @@ preds.to_kaggle_csv(<span class="s">"submission.csv"</span>)               <span
   }
 
   document.querySelectorAll('.trap').forEach(el => el.addEventListener('click', startDownload));
+
+  let toastTimer;
+  const toast = (text, ms = 4500) => {
+    $('toast').textContent = text; $('toast').classList.add('on');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').classList.remove('on'), ms);
+  };
+  const copy = text => { try { navigator.clipboard.writeText(text); } catch (e) {} };
+
+  $('copy').addEventListener('click', () => {
+    copy("# Nice try. There is no undacortex package.\n# There is no model.\n# There is only Rick.\n");
+    $('copy').textContent = 'Copied!';
+    setTimeout(() => $('copy').textContent = 'Copy', 1500);
+    toast('Copied to clipboard. Go ahead, paste it into your notebook. 🎵');
+  });
+
+  $('clone').addEventListener('click', () => {
+    copy('git clone https://github.com/undacortex/undacortex-1-uc-tokke.git');
+    toast("$ git clone https://github.com/undacortex/undacortex-1-uc-tokke.git\nCloning into 'undacortex-1-uc-tokke'...\nremote: Repository not found.\nremote: Did you mean 'undacortex/never-gonna-give-you-up'?\nfatal: repository does not exist (and never did)", 7000);
+  });
+
+  document.querySelectorAll('[data-tab]').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('on', x === t));
+    ['card', 'files', 'community'].forEach(id => $('p-' + id).hidden = id !== t.dataset.tab);
+  }));
+
+  document.querySelectorAll('.thread').forEach(th => th.addEventListener('click', () =>
+    toast('🔒 This discussion was locked by a moderator: Rick Astley.\nReason: the answers would spoil the surprise.')));
   $('again').addEventListener('click', () => {
     $('reveal').classList.remove('on'); $('video').innerHTML = '';
     document.title = 'undacortex-1-uc-tokke · Model weights';
