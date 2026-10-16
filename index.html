@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>undacortex-1-7b · Model weights</title>
+<meta name="description" content="Download the open weights for Undacortex-1-7B, a 7B parameter reasoning model from Undacortex AI.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='80' height='80' rx='18' fill='%23111'/><path d='M30 62l20-26 20 26' fill='none' stroke='%23ffd21e' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<style>
+  :root { --bg: #ffffff; --fg: #111827; --muted: #6b7280; --line: #e5e7eb; --soft: #f9fafb; --accent: #4f46e5; --tag: #eef2ff; --code: #0b1020; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.55; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  header { border-bottom: 1px solid var(--line); padding: 14px clamp(16px, 4vw, 40px); display: flex; align-items: center; gap: 10px; font-weight: 600; }
+  header .dot { width: 22px; height: 22px; border-radius: 6px; background: #111; display: grid; place-items: center; color: #ffd21e; font-size: 13px; }
+  header span.sub { color: var(--muted); font-weight: 400; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 40px) 80px; }
+  .crumb { font-size: clamp(18px, 3vw, 22px); }
+  .crumb a { color: var(--muted); text-decoration: none; }
+  .crumb b { font-weight: 700; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 24px; }
+  .tag { font-size: 13px; padding: 3px 10px; border-radius: 6px; background: var(--soft); border: 1px solid var(--line); }
+  .tag.c { background: var(--tag); border-color: #c7d2fe; color: #3730a3; }
+  .tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--line); margin-bottom: 24px; font-size: 15px; overflow-x: auto; }
+  .tabs div { padding: 10px 0; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .tabs div.on { color: var(--fg); border-bottom: 2px solid var(--fg); font-weight: 600; }
+  .cols { display: grid; grid-template-columns: 1fr 300px; gap: 32px; }
+  @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+  h2 { font-size: 22px; margin: 26px 0 10px; }
+  h2:first-child { margin-top: 0; }
+  p { margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0 16px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  th { background: var(--soft); font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; }
+  pre { background: var(--code); color: #e5e7eb; border-radius: 10px; padding: 16px; font-size: 13px; overflow-x: auto; position: relative; }
+  pre .k { color: #93c5fd; } pre .s { color: #fca5a5; }
+  .copy { position: absolute; top: 10px; right: 10px; font: 12px ui-sans-serif, system-ui; background: #1f2937; color: #d1d5db; border: 1px solid #374151; border-radius: 6px; padding: 3px 8px; cursor: pointer; }
+  aside .box { border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+  aside .label { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  aside .big { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  button.dl { width: 100%; font: inherit; font-weight: 600; cursor: pointer; background: var(--fg); color: #fff; border: 0; border-radius: 10px; padding: 12px 14px; display: flex; justify-content: center; gap: 8px; }
+  button.dl:hover { background: #000; }
+  button.ghost { margin-top: 8px; background: #fff; color: var(--fg); border: 1px solid var(--line); }
+  button.ghost:hover { background: var(--soft); }
+  .files { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 8px; }
+  .file { display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .file:last-child { border-bottom: 0; }
+  .file .size { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .file .get { cursor: pointer; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; font-size: 13px; background: #fff; }
+  .file .get:hover { background: var(--soft); }
+  @media (max-width: 520px) { .file { grid-template-columns: 1fr auto; } .file .size { display: none; } }
+  .stat { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
+  .stat span:first-child { color: var(--muted); }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 24px 16px; border-top: 1px solid var(--line); }
+
+  /* Fake download */
+  #dl { position: fixed; inset: 0; background: rgba(17,24,39,.55); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  #dl.on { display: flex; }
+  .dlbox { background: #fff; border-radius: 14px; width: min(560px, 100%); padding: 22px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+  .dlbox h3 { font-size: 17px; margin-bottom: 4px; }
+  .dlbox .meta { color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 8px; margin: 10px 0 6px; }
+  .bar { height: 10px; background: var(--soft); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .bar div { height: 100%; width: 0; background: linear-gradient(90deg, #4f46e5, #22d3ee); transition: width .25s linear; }
+  .log { margin-top: 14px; background: var(--code); color: #a7f3d0; border-radius: 8px; padding: 12px; height: 150px; overflow-y: auto; font-size: 12px; white-space: pre-wrap; }
+  .log .w { color: #fcd34d; } .log .e { color: #fca5a5; }
+
+  /* Reveal */
+  #reveal { position: fixed; inset: 0; z-index: 20; background: #000; color: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px 16px; overflow-y: auto; }
+  #reveal.on { display: flex; animation: pop .4s ease-out; }
+  @keyframes pop { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: none; } }
+  #reveal h2 { font-size: clamp(28px, 6vw, 58px); line-height: 1.1; letter-spacing: -.02em; margin: 0; }
+  #reveal h2 span { color: #ffd21e; }
+  #reveal p { color: #bbb; margin-top: 14px; font-size: clamp(16px, 2vw, 19px); max-width: 60ch; }
+  .video { margin-top: 24px; width: min(720px, 100%); aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; box-shadow: 0 0 80px rgba(255,210,30,.3); }
+  .video iframe { width: 100%; height: 100%; border: 0; }
+  .facts { margin-top: 20px; display: grid; gap: 6px; font-size: 14px; color: #888; }
+  .facts s { color: #555; }
+  #again { margin-top: 22px; font: inherit; cursor: pointer; background: transparent; color: #aaa; border: 1px solid #333; border-radius: 10px; padding: 10px 18px; }
+</style>
+</head>
+<body>
+
+<header><div class="dot">▲</div>Model Hub <span class="sub">/ hamunk</span></header>
+
+<div class="wrap">
+  <div class="crumb"><a href="https://undacortex.github.io/">undacortex</a> / <b>undacortex-1-7b</b></div>
+  <div class="tags">
+    <span class="tag c">Text Generation</span>
+    <span class="tag">safetensors</span>
+    <span class="tag">PyTorch</span>
+    <span class="tag">7.24B params</span>
+    <span class="tag">BF16</span>
+    <span class="tag">English</span>
+    <span class="tag">License: apache-2.0</span>
+  </div>
+  <div class="tabs">
+    <div class="on">Model card</div>
+    <div class="trap">Files and versions</div>
+    <div class="trap">Community 41</div>
+  </div>
+
+  <div class="cols">
+    <main>
+      <h2>Undacortex-1-7B</h2>
+      <p>Undacortex-1-7B is a 7B parameter decoder-only reasoning model released by <a href="https://undacortex.github.io/">Undacortex AI</a>. It was trained on 14T tokens with a long-context curriculum and post-trained with RL on verifiable reasoning tasks. It beats models 10× its size on math, code and tabular reasoning, and it fits on a single consumer GPU.</p>
+      <p>These are the full-precision BF16 weights. Quantized GGUF versions are coming soon.</p>
+
+      <h2>Evaluation</h2>
+      <table>
+        <tr><th>Benchmark</th><th>Undacortex-1-7B</th><th>Llama-3.1-8B</th><th>Qwen2.5-7B</th></tr>
+        <tr><td>MMLU-Pro</td><td class="num"><b>63.8</b></td><td class="num">44.3</td><td class="num">56.3</td></tr>
+        <tr><td>GPQA Diamond</td><td class="num"><b>51.2</b></td><td class="num">30.4</td><td class="num">36.4</td></tr>
+        <tr><td>MATH-500</td><td class="num"><b>88.6</b></td><td class="num">51.9</td><td class="num">75.5</td></tr>
+        <tr><td>HumanEval+</td><td class="num"><b>81.7</b></td><td class="num">60.4</td><td class="num">74.4</td></tr>
+        <tr><td>Kaggle Tabular (avg. pct.)</td><td class="num"><b>top 0.3%</b></td><td class="num">n/a</td><td class="num">n/a</td></tr>
+      </table>
+
+      <h2>Usage</h2>
+<pre class="mono"><button class="copy trap">Copy</button><span class="k">from</span> transformers <span class="k">import</span> AutoModelForCausalLM, AutoTokenizer
+
+model_id = <span class="s">"undacortex/undacortex-1-7b"</span>
+tok = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=<span class="s">"bfloat16"</span>)
+
+prompt = <span class="s">"Will you ever give me up?"</span>
+out = model.generate(**tok(prompt, return_tensors=<span class="s">"pt"</span>), max_new_tokens=<span class="s">64</span>)
+print(tok.decode(out[0]))</pre>
+
+      <h2>Files</h2>
+      <div class="files">
+        <div class="file"><span class="mono">model-00001-of-00004.safetensors</span><span class="size">4.98 GB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">model-00002-of-00004.safetensors</span><span class="size">4.95 GB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">model-00003-of-00004.safetensors</span><span class="size">4.92 GB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">model-00004-of-00004.safetensors</span><span class="size">1.17 GB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">config.json</span><span class="size">1.2 kB</span><span class="get trap">↓</span></div>
+        <div class="file"><span class="mono">tokenizer.json</span><span class="size">9.1 MB</span><span class="get trap">↓</span></div>
+      </div>
+
+      <h2>Citation</h2>
+<pre class="mono">@misc{undacortex2026,
+  title  = {Undacortex-1: Never Gonna Give You Up on Reasoning},
+  author = {Undacortex AI},
+  year   = {2026}
+}</pre>
+    </main>
+
+    <aside>
+      <div class="box">
+        <div class="label">Full weights · BF16</div>
+        <div class="big">16.0 GB</div>
+        <button class="dl trap">↓ Download model weights</button>
+        <button class="dl ghost trap">git clone</button>
+      </div>
+      <div class="box">
+        <div class="stat"><span>Downloads last month</span><span>48,213</span></div>
+        <div class="stat"><span>Likes</span><span>1,987</span></div>
+        <div class="stat"><span>Context length</span><span>128k</span></div>
+        <div class="stat"><span>Uploaded by</span><span>hamunk</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer>Mirrored by hamunk for the Undacortex AI open-weights release.</footer>
+
+<div id="dl" role="dialog" aria-label="Downloading">
+  <div class="dlbox">
+    <h3>Downloading undacortex-1-7b</h3>
+    <div class="meta"><span id="fname" class="mono">model-00001-of-00004.safetensors</span><span id="pct">0%</span></div>
+    <div class="bar"><div id="bar"></div></div>
+    <div class="meta"><span id="speed">0 MB/s</span><span id="eta">calculating…</span></div>
+    <div class="log mono" id="log"></div>
+  </div>
+</div>
+
+<div id="reveal" role="dialog" aria-label="Surprise">
+  <h2>These weights weigh <span>nothing</span>.</h2>
+  <p>There is no model. There is no Undacortex. 16 GB of state-of-the-art reasoning turned out to be one tensor, and it goes like this:</p>
+  <div class="video" id="video"></div>
+  <div class="facts">
+    <div><s>7.24B parameters</s> &nbsp;→&nbsp; 1 parameter: Rick</div>
+    <div><s>MMLU-Pro 63.8</s> &nbsp;→&nbsp; made up</div>
+    <div><s>48,213 downloads</s> &nbsp;→&nbsp; 48,213 rickrolls</div>
+  </div>
+  <p style="font-size:15px;color:#777">If you also clicked the Undacortex link: that's twice now.</p>
+  <button id="again">Download again</button>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const files = ['model-00001-of-00004.safetensors', 'model-00002-of-00004.safetensors', 'model-00003-of-00004.safetensors', 'model-00004-of-00004.safetensors'];
+  const lines = [
+    ['', 'Resolving undacortex/undacortex-1-7b…'],
+    ['', 'Fetching 6 files from mirror (hamunk)'],
+    ['', 'Downloading model-00001-of-00004.safetensors'],
+    ['', 'Downloading model-00002-of-00004.safetensors'],
+    ['w', 'Warning: unexpected key in state_dict: "never.gonna.give.you.up"'],
+    ['', 'Downloading model-00003-of-00004.safetensors'],
+    ['w', 'Warning: unexpected key in state_dict: "never.gonna.let.you.down"'],
+    ['', 'Downloading model-00004-of-00004.safetensors'],
+    ['w', 'Warning: unexpected key in state_dict: "never.gonna.run.around"'],
+    ['', 'Verifying SHA256 checksums…'],
+    ['e', 'Checksum mismatch: expected <model>, got <rick_astley_1987.mp4>'],
+  ];
+  let timer = null;
+  const log = (cls, text) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = '> ' + text; $('log').appendChild(d); $('log').scrollTop = 1e9; };
+
+  function startDownload() {
+    if (timer) return;
+    $('log').innerHTML = ''; $('bar').style.width = '0';
+    $('dl').classList.add('on');
+    let p = 0, step = 0;
+    timer = setInterval(() => {
+      p = Math.min(99.4, p + (p < 80 ? 3 + Math.random() * 4 : Math.random() * 1.2));
+      $('bar').style.width = p + '%';
+      $('pct').textContent = p.toFixed(1) + '%';
+      $('fname').textContent = files[Math.min(3, Math.floor(p / 25))];
+      $('speed').textContent = (80 + Math.random() * 40).toFixed(1) + ' MB/s';
+      $('eta').textContent = p < 99 ? Math.max(1, Math.round((100 - p) / 4)) + 's left' : 'verifying…';
+      const want = Math.floor(p / 100 * lines.length * 1.05);
+      while (step < Math.min(want, lines.length)) { log(...lines[step]); step++; }
+      if (step >= lines.length && p >= 99) { clearInterval(timer); timer = null; setTimeout(reveal, 1400); }
+    }, 220);
+  }
+
+  function reveal() {
+    $('dl').classList.remove('on');
+    if (!$('video').firstChild) {
+      $('video').innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0" title="undacortex-1-7b" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    }
+    $('reveal').classList.add('on');
+    document.title = 'Never gonna give you up · undacortex-1-7b';
+  }
+
+  document.querySelectorAll('.trap').forEach(el => el.addEventListener('click', startDownload));
+  $('again').addEventListener('click', () => {
+    $('reveal').classList.remove('on'); $('video').innerHTML = '';
+    document.title = 'undacortex-1-7b · Model weights';
+  });
+</script>
+</body>
+</html>
